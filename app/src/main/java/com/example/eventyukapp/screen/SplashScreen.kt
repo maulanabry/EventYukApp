@@ -23,6 +23,8 @@ import androidx.navigation.NavController
 import com.example.eventyukapp.R
 import com.example.eventyukapp.navigation.Screen
 import kotlinx.coroutines.delay
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun SplashScreen(navController: NavController) {
@@ -42,7 +44,7 @@ fun SplashScreen(navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxSize(),
-        color = Color(0x212196F3) // Custom background color for the splash screen
+        color = Color(0xFF2196F3) // Custom background color for the splash screen
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -61,3 +63,10 @@ fun SplashScreen(navController: NavController) {
         }
     }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun SplashScreenPreview() {
+//    val navController = rememberNavController()
+//    SplashScreen(navController = navController)
+//}
