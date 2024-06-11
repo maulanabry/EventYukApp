@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">EventYukApp</string>
+    <string name="menu_onboarding">Onboarding</string>
+    <string name="menu_beranda">Beranda</string>
+    <string name="menu_acara">Acara</string>
+    <string name="menu_notifikasi">Notifikasi</string>
+
 </resources>
