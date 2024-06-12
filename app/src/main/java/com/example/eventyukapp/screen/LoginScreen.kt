@@ -155,22 +155,19 @@ fun LoginScreen() {
         ) {
             Text("Masuk")
         }
-    }
+    Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Create Account Button
-        Button(
-            onClick = { /* Handle create new account action */ },
-            modifier = Modifier.width(200.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF2196F3) // Orange color for button
-            ),
-            shape = RoundedCornerShape(4.dp) // Rounded corners
+    // Buat Akun Button
+    Button(
+        onClick = { /* Handle create new account action */ },
+        modifier = Modifier.width(200.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF2196F3) // Orange color for button
+        ),
+        shape = RoundedCornerShape(4.dp) // Rounded corners
         ) {
-            Text("Buat Akun Baru")
-        }
-
+        Text("Buat Akun Baru")
+    }
         // Notification Message
         notificationMessage?.let {
             Text(
@@ -186,6 +183,7 @@ fun LoginScreen() {
             )
         }
     }
+}
 
 
 private fun saveUserToRealtimeDatabase(email: String, password: String) {
