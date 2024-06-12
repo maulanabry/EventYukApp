@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.database.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -101,6 +103,15 @@ dependencies {
 
     //Accompanist
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
+
+    //Firebase
+
+    implementation(platform("com.google.firebase:firebase-bom:31.1.1"))
+    implementation ("com.google.firebase:firebase-auth")
+    implementation ("com.google.firebase:firebase-firestore")
+    implementation(platform("com.google.firebase:firebase-bom:28.3.0"))
+    implementation ("com.google.firebase:firebase-database-ktx")
+
 }
 
 // Allow references to generated code

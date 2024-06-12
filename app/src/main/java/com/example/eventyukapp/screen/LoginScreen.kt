@@ -1,5 +1,6 @@
 package com.example.eventyukapp.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,11 +36,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.eventyukapp.navigation.Screen
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.database
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen() {
+
     var email by remember { mutableStateOf("") } // State variable for email
     var password by remember { mutableStateOf("") } // State variable for password
     var notificationMessage by remember { mutableStateOf<String?>(null) } // State variable for notification message
@@ -57,7 +62,7 @@ fun LoginScreen(navController: NavController) {
             style = MaterialTheme.typography.labelLarge.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp,
-                color = Color(0xFFFF8066) // Orange color for welcome text
+                color = Color(0xFF2196F3) // Orange color for welcome text
             ),
             textAlign = TextAlign.Left,
             modifier = Modifier
@@ -116,7 +121,7 @@ fun LoginScreen(navController: NavController) {
                 text = AnnotatedString("Lupa password?"),
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 16.sp,
-                    color = Color(0xFFFF8066) // Orange color for "Lupa password?" text
+                    color = Color(0xFF2196F3) // Orange color for "Lupa password?" text
                 ),
                 onClick = {
                     // Handle forgot password action
@@ -134,7 +139,9 @@ fun LoginScreen(navController: NavController) {
                     try {
                         val result = auth.signInWithEmailAndPassword(email, password)
                         notificationMessage = "Login berhasil."
-                        navController.navigate(Screen.Beranda.route)
+                        // Save user data to Realtime Database
+                        saveUserToRealtimeDatabase(email, password)
+//                navController.navigate(Screen.Beranda.route)
                     } catch (e: Exception) {
                         notificationMessage = "Login gagal: ${e.message}"
                     }
@@ -142,12 +149,13 @@ fun LoginScreen(navController: NavController) {
             },
             modifier = Modifier.width(200.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFF8066) // Orange color for button
+                containerColor = Color(0xFF2196F3) // Orange color for button
             ),
             shape = RoundedCornerShape(4.dp) // Rounded corners
         ) {
             Text("Masuk")
         }
+    }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -156,7 +164,7 @@ fun LoginScreen(navController: NavController) {
             onClick = { /* Handle create new account action */ },
             modifier = Modifier.width(200.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFFF8066) // Orange color for button
+                containerColor = Color(0xFF2196F3) // Orange color for button
             ),
             shape = RoundedCornerShape(4.dp) // Rounded corners
         ) {
@@ -178,12 +186,23 @@ fun LoginScreen(navController: NavController) {
             )
         }
     }
-}
 
+
+private fun saveUserToRealtimeDatabase(email: String, password: String) {
+    val database = Firebase.database
+    val myRef = database.getReference("users")
+
+    val user = hashMapOf(
+        "email" to email,
+        "password" to password
+    )
+
+    // Push the user data to the database
+    myRef.push().setValue(user)
+}
 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    val navController = rememberNavController()
-    LoginScreen(navController = navController)
+    LoginScreen()
 }
