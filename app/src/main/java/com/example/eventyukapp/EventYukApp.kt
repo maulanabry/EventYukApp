@@ -32,6 +32,12 @@ import com.example.eventyukapp.navigation.NavigationItem
 import com.example.eventyukapp.navigation.Screen
 import com.example.eventyukapp.screen.OnBoardingScreen
 import com.example.eventyukapp.screen.SplashScreen
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.graphics.Color
+import com.example.eventyukapp.ui.theme.EventYukAppTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,10 +74,15 @@ fun EventYukApp(
             composable(Screen.OnBoarding.route) {
                 OnBoardingScreen(navController = navController)
             }
+//            composable(Screen.Login.route) {
+//               // LoginScreen(navController = navController)
+//            }
+//            composable(Screen.Beranda.route) {
+//               // BerandaScreen(navController = navController)
+            }
             // tambahin navigasi screen lainnya
             }
         }
-    }
 
 
 @Composable
@@ -115,12 +126,25 @@ private fun BottomBar(
                         launchSingleTop = true
                     }
                 },
-                icon = { Icon(painter = item.icon, contentDescription = item.title, modifier = Modifier.size(24.dp)) },
+                icon = {
+                    val iconTint = if (currentRoute == item.screen.route) {
+                        Color(0xFF2196F3) // Warna ikon saat dipilih
+                    } else {
+                        Color.DarkGray // Warna ikon saat tidak dipilih
+                    }
+                    Icon(
+                        painter = item.icon,
+                        contentDescription = item.title,
+                        tint = iconTint,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
                 label = { Text(text = item.title) }
             )
         }
     }
 }
+
 
 @Composable
 private fun BackButton(navController: NavController, iconResId: Int, contentDescription: String) {
@@ -137,9 +161,22 @@ private fun BackButton(navController: NavController, iconResId: Int, contentDesc
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
+//@RequiresApi(Build.VERSION_CODES.O)
+//@Preview(showBackground = true)
+//@Composable
+//private fun EventYukAppPrev() {
+//    EventYukApp()
+//}
 @Preview(showBackground = true)
 @Composable
-private fun EventYukAppPrev() {
-    EventYukApp()
+fun BottomBarPreview() {
+    EventYukAppTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = colorScheme.background
+        ) {
+            val navController = rememberNavController()
+            BottomBar(navController = navController)
+        }
+    }
 }
