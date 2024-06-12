@@ -37,6 +37,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.graphics.Color
+import com.example.eventyukapp.screen.LoginScreen
+import com.example.eventyukapp.screen.beranda.BerandaScreen
 import com.example.eventyukapp.ui.theme.EventYukAppTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -74,11 +76,13 @@ fun EventYukApp(
             composable(Screen.OnBoarding.route) {
                 OnBoardingScreen(navController = navController)
             }
-//            composable(Screen.Login.route) {
-//               // LoginScreen(navController = navController)
-//            }
-//            composable(Screen.Beranda.route) {
-//               // BerandaScreen(navController = navController)
+           composable(Screen.Login.route) {
+               LoginScreen(navController = navController)
+           }
+            composable(Screen.Beranda.route) {
+                BerandaScreen(navController = navController)
+            }
+
             }
             // tambahin navigasi screen lainnya
             }

@@ -35,21 +35,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.eventyukapp.navigation.Screen
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.database
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
+import com.example.eventyukapp.navigation.Screen
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
 
     var email by remember { mutableStateOf("") } // State variable for email
     var password by remember { mutableStateOf("") } // State variable for password
     var notificationMessage by remember { mutableStateOf<String?>(null) } // State variable for notification message
     val coroutineScope = rememberCoroutineScope()
-
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -62,7 +60,7 @@ fun LoginScreen() {
             style = MaterialTheme.typography.labelLarge.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp,
-                color = Color(0xFF2196F3) // Orange color for welcome text
+                color = Color(0xFF2196F3) // Blue color for welcome text
             ),
             textAlign = TextAlign.Left,
             modifier = Modifier
@@ -121,7 +119,7 @@ fun LoginScreen() {
                 text = AnnotatedString("Lupa password?"),
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 16.sp,
-                    color = Color(0xFF2196F3) // Orange color for "Lupa password?" text
+                    color = Color(0xFF2196F3) // Blue color for "Lupa password?" text
                 ),
                 onClick = {
                     // Handle forgot password action
@@ -141,7 +139,10 @@ fun LoginScreen() {
                         notificationMessage = "Login berhasil."
                         // Save user data to Realtime Database
                         saveUserToRealtimeDatabase(email, password)
-//                navController.navigate(Screen.Beranda.route)
+                        // Navigate to the home screen
+                        navController.navigate(Screen.Beranda.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
                     } catch (e: Exception) {
                         notificationMessage = "Login gagal: ${e.message}"
                     }
@@ -149,25 +150,28 @@ fun LoginScreen() {
             },
             modifier = Modifier.width(200.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF2196F3) // Orange color for button
+                containerColor = Color(0xFF2196F3) // Blue color for button
             ),
             shape = RoundedCornerShape(4.dp) // Rounded corners
         ) {
             Text("Masuk")
         }
-    Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-    // Buat Akun Button
-    Button(
-        onClick = { /* Handle create new account action */ },
-        modifier = Modifier.width(200.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF2196F3) // Orange color for button
-        ),
-        shape = RoundedCornerShape(4.dp) // Rounded corners
+        // Buat Akun Button
+        Button(
+            onClick = { /* Handle create new account action */ },
+            modifier = Modifier.width(200.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF2196F3) // Blue color for button
+            ),
+            shape = RoundedCornerShape(4.dp) // Rounded corners
         ) {
-        Text("Buat Akun Baru")
-    }
+            Text("Buat Akun Baru")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         // Notification Message
         notificationMessage?.let {
             Text(
@@ -185,7 +189,6 @@ fun LoginScreen() {
     }
 }
 
-
 private fun saveUserToRealtimeDatabase(email: String, password: String) {
     val database = Firebase.database
     val myRef = database.getReference("users")
@@ -202,5 +205,6 @@ private fun saveUserToRealtimeDatabase(email: String, password: String) {
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    val navController = rememberNavController()
+    LoginScreen(navController = navController)
 }
