@@ -3,6 +3,8 @@
     <string name="menu_onboarding">Onboarding</string>
     <string name="menu_beranda">Beranda</string>
     <string name="menu_acara">Acara</string>
+    <string name="menu_eventdetail">EventDetail</string>
+    <string name="menu_reminder">Reminder</string>
     <string name="menu_notifikasi">Notifikasi</string>
 
 </resources>

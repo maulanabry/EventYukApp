@@ -82,6 +82,7 @@ dependencies {
 
     //Compose Navigation
     implementation ("androidx.navigation:navigation-compose:2.6.0")
+    implementation ("androidx.navigation:navigation-compose:2.4.0-alpha10")
 
     //Dagger Hilt
     implementation ("com.google.dagger:hilt-android:2.44")
@@ -122,6 +123,22 @@ dependencies {
     implementation ("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.5.21")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
 
+
+    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("androidx.appcompat:appcompat:1.4.0")
+    implementation ("com.google.android.material:material:1.4.0")
+    implementation ("androidx.compose.ui:ui:1.0.5")
+    implementation ("androidx.compose.material:material:1.0.5")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.0.5")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    implementation ("androidx.activity:activity-compose:1.4.0")
+
+    // Jetpack Compose dependencies
+    implementation ("androidx.compose.ui:ui:1.4.3")
+    implementation ("androidx.compose.material3:material3:1.0.1")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.4.3")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation ("androidx.activity:activity-compose:1.7.2")
 }
 
 // Allow references to generated code

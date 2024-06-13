@@ -37,12 +37,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
-import com.example.eventyukapp.data.DummyData
 import com.example.eventyukapp.screen.LoginScreen
 import com.example.eventyukapp.screen.beranda.BerandaScreen
-import com.example.eventyukapp.screen.detailEvent.EventDetailScreen
 import com.example.eventyukapp.ui.theme.EventYukAppTheme
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -80,24 +76,17 @@ fun EventYukApp(
             composable(Screen.OnBoarding.route) {
                 OnBoardingScreen(navController = navController)
             }
-            composable(Screen.Login.route) {
-                LoginScreen(navController = navController)
-            }
+           composable(Screen.Login.route) {
+               LoginScreen(navController = navController)
+           }
             composable(Screen.Beranda.route) {
                 BerandaScreen(navController = navController)
             }
-            composable(
-                route = "${Screen.EventDetail.route}/{eventId}",
-                arguments = listOf(navArgument("eventId") { type = NavType.IntType })
-            ) { backStackEntry ->
-                val eventId = backStackEntry.arguments?.getInt("eventId")
-                val event = DummyData.eventData.find { it.id == eventId }
-                event?.let { EventDetailScreen(event = it, onBackPressed = { navController.popBackStack() }) }
+
+            }
+            // tambahin navigasi screen lainnya
             }
         }
-    }
-}
-
 
 
 @Composable
