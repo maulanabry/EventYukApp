@@ -81,7 +81,7 @@ fun EventDetailScreen(event: EventItem, onBackPressed: () -> Unit, navController
 }
 
 @Composable
-fun ReminderScreen(onReminderSet: (String, Long) -> Unit) {
+fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHostController) {
     val context = LocalContext.current
     var eventName by remember { mutableStateOf("") }
     var eventDate by remember { mutableStateOf("") }
@@ -120,8 +120,8 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit) {
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 backgroundColor = Color.White
@@ -202,6 +202,7 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit) {
     }
 }
 
+
 class AlarmReceiver : BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
@@ -229,13 +230,13 @@ private fun createNotification(context: Context, eventName: String?) {
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .build()
 
-    notificationManager.notify(0, notification)
+    //notificationManager.notify(0, notification)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ReminderScreenPreview() {
-    ReminderScreen { _, _ -> }
+    ReminderScreen({ _, _ -> }, rememberNavController())
 }
 
 // Activity setup
@@ -254,7 +255,7 @@ class MainActivity : AppCompatActivity() {
                 composable("reminder") {
                     ReminderScreen(onReminderSet = { eventName, eventMillis ->
                         // Handle reminder set logic here
-                    })
+                    }, navController = navController)
                 }
             }
         }
