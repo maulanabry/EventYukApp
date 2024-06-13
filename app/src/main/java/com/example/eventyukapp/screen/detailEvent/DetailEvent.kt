@@ -23,8 +23,6 @@ import com.example.eventyukapp.data.DummyData
 import com.example.eventyukapp.model.EventItem
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,11 +30,7 @@ fun DetailEventScreen(eventId: Int, onBackPressed: () -> Unit, navController: Na
     val event = DummyData.eventData.find { it.id == eventId } ?: return
     val context = LocalContext.current
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-    ) {
+    Column(modifier = Modifier.fillMaxSize() .fillMaxWidth()) {
         CenterAlignedTopAppBar(
             title = {
                 Text(
@@ -56,7 +50,7 @@ fun DetailEventScreen(eventId: Int, onBackPressed: () -> Unit, navController: Na
                 IconButton(onClick = { navController.navigate("reminder") }) {
                     Icon(imageVector = Icons.Filled.DateRange, contentDescription = "Reminder")
                 }
-            }
+            },
         )
         Box(
             modifier = Modifier
@@ -84,7 +78,7 @@ fun DetailEventScreen(eventId: Int, onBackPressed: () -> Unit, navController: Na
         }
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(16.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))

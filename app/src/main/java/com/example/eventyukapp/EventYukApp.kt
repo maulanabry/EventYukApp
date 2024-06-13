@@ -99,9 +99,8 @@ fun EventYukApp(
                 }
             }
             composable("reminder") {
-                ReminderScreen(
-                    onReminderSet = { eventName, eventMillis ->
-                        // Handle reminder set logic here
+                ReminderScreen(onReminderSet = { eventName, eventMillis ->
+                    // Handle reminder set logic here
                     },
                     navController = navController
                 )

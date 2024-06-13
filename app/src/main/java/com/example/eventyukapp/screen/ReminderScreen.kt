@@ -8,7 +8,6 @@ import android.app.TimePickerDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.fonts.FontStyle
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -16,15 +15,10 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -86,6 +80,7 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
     var eventName by remember { mutableStateOf("") }
     var eventDate by remember { mutableStateOf("") }
     var eventTime by remember { mutableStateOf("") }
+    var showSuccessDialog by remember { mutableStateOf(false) }
 
     val calendar = Calendar.getInstance()
     val datePickerDialog = DatePickerDialog(
@@ -121,7 +116,7 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
                     fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 backgroundColor = Color.White
@@ -186,6 +181,7 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
 
                         if (eventMillis > 0L) {
                             onReminderSet(eventName, eventMillis)
+                            showSuccessDialog = true
                         } else {
                             // Handle invalid date/time format
                         }
@@ -200,8 +196,29 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
             }
         }
     }
-}
 
+    if (showSuccessDialog) {
+        AlertDialog(
+            onDismissRequest = { showSuccessDialog = false },
+            title = { Text("Sukses") },
+            text = { Text("Pengingat berhasil ditambahkan!") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showSuccessDialog = false
+                        navController.popBackStack() // Navigate back or to the success page
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF2196F3),
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+}
 
 class AlarmReceiver : BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -230,34 +247,14 @@ private fun createNotification(context: Context, eventName: String?) {
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .build()
 
-    //notificationManager.notify(0, notification)
+    notificationManager.notify(0, notification)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ReminderScreenPreview() {
-    ReminderScreen({ _, _ -> }, rememberNavController())
+    val navController = rememberNavController()
+    ReminderScreen(onReminderSet = { _, _ -> }, navController = navController)
 }
 
-// Activity setup
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val event = intent.getParcelableExtra<EventItem>("event")
-        setContent {
-            val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "detail") {
-                composable("detail") {
-                    event?.let {
-                        EventDetailScreen(event, onBackPressed = { onBackPressedDispatcher.onBackPressed() }, navController)
-                    }
-                }
-                composable("reminder") {
-                    ReminderScreen(onReminderSet = { eventName, eventMillis ->
-                        // Handle reminder set logic here
-                    }, navController = navController)
-                }
-            }
-        }
-    }
-}
+
