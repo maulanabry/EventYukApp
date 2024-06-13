@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -65,6 +66,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.database.ktx)
+    implementation(libs.androidx.room.common)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -111,6 +113,14 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore")
     implementation(platform("com.google.firebase:firebase-bom:28.3.0"))
     implementation ("com.google.firebase:firebase-database-ktx")
+
+    implementation ("androidx.core:core-ktx:1.6.0")
+    implementation ("androidx.activity:activity-compose:1.3.1")
+    implementation ("androidx.compose.ui:ui:1.0.2")
+    implementation ("androidx.compose.material3:material3:1.0.0-alpha12")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.3.1")
+    implementation ("org.jetbrains.kotlin:kotlin-parcelize-runtime:1.5.21")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
 
 }
 
