@@ -19,6 +19,7 @@ import com.example.eventyukapp.model.EventItem
 import android.os.Parcelable
 import androidx.compose.ui.platform.LocalContext
 import android.net.Uri
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -60,86 +61,93 @@ fun EventDetailScreen(event: EventItem, onBackPressed: () -> Unit) {
                     text = "Detail Event",
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontSize = 20.sp,
-                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                        fontWeight = FontWeight.Bold
                     )
                 )
             },
-
             navigationIcon = {
                 IconButton(onClick = onBackPressed) {
                     Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
                 }
             }
         )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFCFECF7)) // Light Sky Blue background
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
+            item {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(400.dp)
+                        .background(Color(0xFFCFECF7)) // Light Sky Blue background
                 ) {
-                    Image(
-                        painter = painterResource(id = event.picture),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(400.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = event.picture),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    }
                 }
             }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = event.name,
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.Bold
-                ),
-                color = Color.Black
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = event.location, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = java.text.SimpleDateFormat("dd MMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date(event.time)),
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = event.description, style = MaterialTheme.typography.bodyMedium, color = Color.Black)
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = event.longDescription,
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Black,
-                textAlign = TextAlign.Justify,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.mapsLink))
-                    context.startActivity(intent)
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)) // Button color
-            ) {
-                Text(text = "Open in Maps")
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = event.name,
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = event.location, style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = java.text.SimpleDateFormat("dd MMM yyyy, HH:mm", java.util.Locale.getDefault()).format(java.util.Date(event.time)),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(text = event.description, style = MaterialTheme.typography.bodyMedium, color = Color.Black)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = event.longDescription,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Black,
+                        textAlign = TextAlign.Justify,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(event.mapsLink))
+                            context.startActivity(intent)
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3)) // Button color
+                    ) {
+                        Text(text = "Open in Maps")
+                    }
+                }
             }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

@@ -1,7 +1,9 @@
 package com.example.eventyukapp.screen.beranda.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,27 +38,40 @@ fun EventCard(
     Card(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp
+            defaultElevation = 4.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
         ),
         modifier = modifier
-            .padding(8.dp)
             .fillMaxWidth()
             .clickable { onClick(event.mapsLink) }
+            .padding(4.dp)
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth()
+                .padding(8.dp)
         ) {
-            Image(
-                painter = painterResource(id = event.picture),
-                contentDescription = event.name,
-                modifier = Modifier.fillMaxWidth()
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp) // Half the height for the image
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFCFECF7))
+            ) {
+                Image(
+                    painter = painterResource(id = event.picture),
+                    contentDescription = event.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = event.name,
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -64,20 +80,22 @@ fun EventCard(
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = event.location,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.Gray
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = event.description,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.Gray
             )
         }
     }
@@ -94,13 +112,13 @@ private fun EventCardPreview() {
                 location = "Stadion Gelora Bung Karno Jakarta",
                 time = System.currentTimeMillis() + 86400000, // 1 hari dari sekarang
                 description = "Konser spektakuler oleh Taylor Swift",
-                longDescription = "",
                 picture = R.drawable.img_poster_1,
+                longDescription = "",
                 mapsLink = "https://www.google.com/maps/place/Stadion+Gelora+Bung+Karno"
             ),
             onClick = { mapsLink ->
                 // Implement the action you want to perform on click, e.g., opening Google Maps.
             }
-        )
-    }
+            )
+        }
 }
