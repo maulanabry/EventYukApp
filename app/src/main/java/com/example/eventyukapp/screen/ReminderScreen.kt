@@ -8,6 +8,7 @@ import android.app.TimePickerDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.fonts.FontStyle
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -27,12 +28,14 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.app.NotificationCompat
@@ -53,7 +56,7 @@ fun EventDetailScreen(event: EventItem, onBackPressed: () -> Unit, navController
             TopAppBar(
                 title = { Text(event.name) },
                 navigationIcon = {
-                    IconButton(onClick = { onBackPressed() }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -113,9 +116,11 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Set Reminder") },
+                title = { Text("Set Reminder",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
-                    IconButton(onClick = { /* Handle back */ }) {
+                    IconButton(onClick = {}) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
