@@ -1,14 +1,8 @@
 package com.example.eventyukapp.screen.beranda
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,8 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.eventyukapp.data.DummyData
-import com.example.eventyukapp.model.EventItem
-import com.example.eventyukapp.screen.acara.component.AcaraCard
+import com.example.eventyukapp.screen.acara.component.EventListItem
 import com.example.eventyukapp.screen.beranda.component.BannerSection
 import com.example.eventyukapp.screen.beranda.component.RekomendasiCard
 import com.example.eventyukapp.ui.theme.EventYukAppTheme
@@ -49,12 +42,10 @@ fun BerandaScreen(
         }
 
         // Title below the logo
-
-        // List of event cards in a grid
         BannerSection()
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            modifier = Modifier.padding( vertical = 5.dp),
+            modifier = Modifier.padding(vertical = 5.dp),
             text = "Rekomendasi",
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Black,
@@ -63,7 +54,27 @@ fun BerandaScreen(
         Spacer(modifier = Modifier.height(10.dp))
         LazyRow {
             items(events, key = { it.id }) { event ->
-                RekomendasiCard(event = event) {
+                Column {
+                    RekomendasiCard(event = event) {
+                        navController.navigate("detail/${event.id}")
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+            }
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            modifier = Modifier.padding(vertical = 5.dp),
+            text = "All Events",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Black,
+            color = Color(0xFF2196F3)
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        LazyColumn {
+            items(events, key = { it.id }) { event ->
+                EventListItem(event = event) { mapsLink ->
                     navController.navigate("detail/${event.id}")
                 }
                 Spacer(modifier = Modifier.height(10.dp))
@@ -71,7 +82,6 @@ fun BerandaScreen(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
