@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "528020157517",
+    "project_id": "eventyukapp-70bd5",
+    "storage_bucket": "eventyukapp-70bd5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528020157517:android:2f1b74b0763e5f3caf1804",
+        "android_client_info": {
+          "package_name": "com.example.eventyukapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDja1XhDKqoG3xcYb9j5WyhndZCxboZBtA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
