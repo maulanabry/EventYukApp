@@ -170,7 +170,7 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF2196F3),
+                        containerColor = Color(0xFFCFECF7),
                         contentColor = Color.White
                     )
                 ) {
