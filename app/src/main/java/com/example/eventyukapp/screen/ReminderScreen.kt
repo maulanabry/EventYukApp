@@ -2,20 +2,23 @@ package com.example.eventyukapp.screen
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.TimePickerDialog
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.os.Build
-import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Scaffold
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,23 +27,29 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.NotificationCompat
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.eventyukapp.R
+import com.example.eventyukapp.data.AppDatabase
 import com.example.eventyukapp.model.EventItem
+import com.example.eventyukapp.model.NotificationItem
+import com.example.eventyukapp.navigation.Screen
+import com.example.eventyukapp.repository.NotificationRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -181,6 +190,7 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
 
                         if (eventMillis > 0L) {
                             onReminderSet(eventName, eventMillis)
+                            addNotificationToDatabase(context, eventName, eventMillis)
                             showSuccessDialog = true
                         } else {
                             // Handle invalid date/time format
@@ -206,7 +216,7 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
                 Button(
                     onClick = {
                         showSuccessDialog = false
-                        navController.popBackStack() // Navigate back or to the success page
+                        navController.navigate(Screen.Notifikasi.route) // Navigate to NotificationScreen
                     },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF2196F3),
@@ -220,41 +230,12 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
     }
 }
 
-class AlarmReceiver : BroadcastReceiver() {
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onReceive(context: Context, intent: Intent) {
-        val eventName = intent.getStringExtra("EVENT_NAME")
-        // Show notification or handle the alarm event
-        createNotification(context, eventName)
+fun addNotificationToDatabase(context: Context, name: String, timeInMillis: Long) {
+    val notificationDao = AppDatabase.getInstance(context).notificationDao()
+    val notificationRepository = NotificationRepository(notificationDao)
+    val notificationItem = NotificationItem(name = name, time = timeInMillis)
+
+    CoroutineScope(Dispatchers.IO).launch {
+        notificationRepository.insertNotification(notificationItem)
     }
 }
-
-@RequiresApi(Build.VERSION_CODES.O)
-private fun createNotification(context: Context, eventName: String?) {
-    val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    val notificationChannel = NotificationChannel(
-        "EVENT_REMINDER_CHANNEL",
-        "Event Reminder",
-        NotificationManager.IMPORTANCE_HIGH
-    )
-    notificationManager.createNotificationChannel(notificationChannel)
-
-    val notification = NotificationCompat.Builder(context, "EVENT_REMINDER_CHANNEL")
-        .setContentTitle("Event Reminder")
-        .setContentText("Don't forget: $eventName")
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
-        .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .build()
-
-    notificationManager.notify(0, notification)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ReminderScreenPreview() {
-    val navController = rememberNavController()
-    ReminderScreen(onReminderSet = { _, _ -> }, navController = navController)
-}
-
-

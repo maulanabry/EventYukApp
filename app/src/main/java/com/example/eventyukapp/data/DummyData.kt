@@ -45,6 +45,46 @@ object DummyData {
             longDescription = "SEKOIN adalah seminar tahunan yang menghadirkan para pemimpin industri dan pakar teknologi untuk berbagi wawasan tentang tren terbaru dalam dunia kewirausahaan dan teknologi. Acara ini menawarkan berbagai sesi diskusi, lokakarya, dan presentasi dari para ahli industri yang berpengalaman. Bergabunglah dengan kami untuk mendapatkan wawasan tentang peluang baru dalam bisnis dan teknologi serta untuk menjalin hubungan dengan para profesional dan pengusaha lainnya.",
             picture = R.drawable.img_poster_4,
             mapsLink = "https://www.google.com/maps/place/Gedung+Pusat+UPN+Veteran+Jawa+Timur"
+        ),
+        EventItem(
+            id = 5,
+            name = "Harmony Art Showcase",
+            location = "Gedung Pusat UPN Veteran Jawa Timur",
+            time = System.currentTimeMillis() + 432000000, // 5 hari dari sekarang
+            description = "Temukan harmoni seni di acara Harmony Art Showcase, tempat seniman dari berbagai disiplin berkumpul untuk menampilkan karya terbaik mereka.",
+            longDescription = "Selamat datang di Harmony Art Showcase, sebuah acara yang didedikasikan untuk merayakan keindahan dan keragaman seni. Di sini, seniman dari berbagai latar belakang akan memamerkan karya-karya mereka, mulai dari lukisan, patung, hingga instalasi seni modern. Acara ini bertujuan untuk menginspirasi dan mempertemukan komunitas seni, menawarkan platform bagi seniman untuk berinteraksi, belajar, dan berkembang bersama. Nikmati pameran, diskusi panel, dan workshop yang akan memperkaya wawasan Anda tentang dunia seni.",
+            picture = R.drawable.img_poster_5,
+            mapsLink = "https://www.google.com/maps/place/Gedung+Pusat+UPN+Veteran+Jawa+Timur"
+        ),
+        EventItem(
+            id = 6,
+            name = "Seminar Nasional Teknologi Industri",
+            location = "Gedung Pusat UPN Veteran Jawa Timur",
+            time = System.currentTimeMillis() + 432000000, // 5 hari dari sekarang
+            description = "Ikuti Seminar Nasional Teknologi Industri untuk mendapatkan wawasan terbaru tentang perkembangan dan inovasi di bidang teknologi industri.",
+            longDescription = "Seminar Nasional Teknologi Industri adalah acara tahunan yang mengumpulkan para profesional, akademisi, dan praktisi untuk berbagi pengetahuan dan pengalaman tentang teknologi industri terkini. Dengan menghadirkan pembicara-pembicara terkemuka, seminar ini akan membahas berbagai topik mulai dari otomatisasi, manufaktur cerdas, hingga teknologi ramah lingkungan. Peserta akan mendapatkan kesempatan untuk terlibat dalam diskusi mendalam, jaringan profesional, dan menemukan solusi inovatif untuk tantangan industri. Jangan lewatkan kesempatan untuk memperluas pengetahuan dan koneksi Anda di bidang teknologi industri.",
+            picture = R.drawable.img_poster_6,
+            mapsLink = "https://www.google.com/maps/place/Gedung+Pusat+UPN+Veteran+Jawa+Timur"
+        ),
+        EventItem(
+            id = 7,
+            name = "Konferensi Teknologi",
+            location = "Gedung Pusat UPN Veteran Jawa Timur",
+            time = System.currentTimeMillis() + 432000000, // 5 hari dari sekarang
+            description = "Bergabunglah dalam Konferensi Teknologi, sebuah platform untuk berdiskusi tentang tren dan inovasi terbaru dalam dunia teknologi.",
+            longDescription = "Konferensi Teknologi adalah acara premier yang menyatukan para ahli teknologi, pengembang, dan pengusaha untuk mengeksplorasi masa depan teknologi. Acara ini mencakup berbagai sesi yang mendalam, mulai dari kecerdasan buatan, blockchain, hingga teknologi 5G. Dengan menghadirkan para pembicara ahli dan panel diskusi, konferensi ini menawarkan wawasan berharga dan praktek terbaik yang dapat diimplementasikan dalam berbagai industri. Partisipan juga akan memiliki kesempatan untuk networking, berkolaborasi, dan menemukan inspirasi untuk proyek-proyek teknologi masa depan.",
+            picture = R.drawable.img_poster_7,
+            mapsLink = "https://www.google.com/maps/place/Gedung+Pusat+UPN+Veteran+Jawa+Timur"
+        ),
+        EventItem(
+            id = 8,
+            name = "Grafika: Creative Design Competition",
+            location = "Gedung Pusat UPN Veteran Jawa Timur",
+            time = System.currentTimeMillis() + 432000000, // 5 hari dari sekarang
+            description = "Tunjukkan kreativitas Anda di Grafika: Creative Design Competition dan raih penghargaan untuk karya desain terbaik.",
+            longDescription = "Grafika: Creative Design Competition adalah ajang kompetisi yang menantang desainer untuk memamerkan bakat dan kreativitas mereka dalam berbagai kategori desain. Acara ini terbuka untuk desainer grafis, ilustrator, dan profesional kreatif lainnya yang ingin menguji kemampuan mereka dan mendapatkan pengakuan di industri. Peserta akan bersaing dalam berbagai tema dan gaya, dinilai oleh panel juri yang terdiri dari para ahli desain terkemuka. Selain kompetisi, acara ini juga menawarkan workshop, seminar, dan kesempatan networking untuk mengembangkan keterampilan dan memperluas jaringan profesional. Jangan lewatkan kesempatan untuk menjadi bagian dari komunitas desain yang dinamis dan berkompetisi di Grafika.",
+            picture = R.drawable.img_poster_8,
+            mapsLink = "https://www.google.com/maps/place/Gedung+Pusat+UPN+Veteran+Jawa+Timur"
         )
     )
 }

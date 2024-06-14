@@ -29,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.eventyukapp.navigation.NavigationItem
 import com.example.eventyukapp.navigation.Screen
 import com.example.eventyukapp.screen.LoginScreen
+import com.example.eventyukapp.screen.NotificationScreen
 import com.example.eventyukapp.screen.OnBoardingScreen
 import com.example.eventyukapp.screen.ReminderScreen
 import com.example.eventyukapp.screen.SplashScreen
@@ -92,11 +93,14 @@ fun EventYukApp(
             composable("reminder") {
                 ReminderScreen(onReminderSet = { eventName, eventMillis ->
                     // Handle reminder set logic here
-                    },
+                    navController.navigate(Screen.Notifikasi.route) // Navigate to NotificationScreen
+                },
                     navController = navController
                 )
             }
-
+            composable(Screen.Notifikasi.route) {
+                NotificationScreen(navController = navController)
+            }
         }
     }
 }
