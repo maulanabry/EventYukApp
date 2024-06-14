@@ -50,38 +50,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-@Composable
-fun EventDetailScreen(event: EventItem, onBackPressed: () -> Unit, navController: NavHostController) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(event.name) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                backgroundColor = Color.White
-            )
-        },
-        content = {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = "Detail Event: ${event.name}")
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("reminder") }) {
-                    Text("Set Reminder")
-                }
-            }
-        }
-    )
-}
+import android.util.Log
 
 @Composable
 fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHostController) {
@@ -184,16 +153,20 @@ fun ReminderScreen(onReminderSet: (String, Long) -> Unit, navController: NavHost
 
                 Button(
                     onClick = {
-                        val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
-                        val eventDateTime = "$eventDate $eventTime"
-                        val eventMillis = formatter.parse(eventDateTime)?.time ?: 0L
+                        try {
+                            val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+                            val eventDateTime = "$eventDate $eventTime"
+                            val eventMillis = formatter.parse(eventDateTime)?.time ?: 0L
 
-                        if (eventMillis > 0L) {
-                            onReminderSet(eventName, eventMillis)
-                            addNotificationToDatabase(context, eventName, eventMillis)
-                            showSuccessDialog = true
-                        } else {
-                            // Handle invalid date/time format
+                            if (eventMillis > 0L) {
+                                onReminderSet(eventName, eventMillis)
+                                addNotificationToDatabase(context, eventName, eventMillis)
+                                showSuccessDialog = true
+                            } else {
+                                Log.e("ReminderScreen", "Invalid date/time format")
+                            }
+                        } catch (e: Exception) {
+                            Log.e("ReminderScreen", "Error setting reminder", e)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -236,6 +209,11 @@ fun addNotificationToDatabase(context: Context, name: String, timeInMillis: Long
     val notificationItem = NotificationItem(name = name, time = timeInMillis)
 
     CoroutineScope(Dispatchers.IO).launch {
-        notificationRepository.insertNotification(notificationItem)
+        try {
+            notificationRepository.insertNotification(notificationItem)
+            Log.d("Database", "Notification added successfully")
+        } catch (e: Exception) {
+            Log.e("Database", "Error adding notification to database", e)
+        }
     }
 }
